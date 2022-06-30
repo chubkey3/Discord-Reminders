@@ -7,15 +7,17 @@ const client = new Client({
   partials: ['CHANNEL']
 });
 
-const tasks = {"breakfast": "3:00pm", "lunch": "6:00pm"}
+const tasks = {"336256772165599253": {"breakfast": "3:00pm", "lunch": "6:00pm"}, "878158135544651827": {"dinner": "10:00pm"}}
 
 client.once('ready', () => console.log('Ready!'));
 
 client.on('messageCreate', (message) => {
+    
+    if (message.channel.type  && !message.author.bot ){ //message.channel.type === "DM"
 
-    if (message.channel.type === "DM" && !message.author.bot ){
+        let id = message.author.id
 
-        if (message.content.startsWith('!a')) {
+        if (message.content.startsWith('!a ')) {
 
             let a = message.content.split(' ');
 
@@ -24,16 +26,16 @@ client.on('messageCreate', (message) => {
 
             } else {
 
-                if (a[1] in tasks){
+                if (a[1] in tasks[id]){
                     message.channel.send('Task Already Exists!')
 
                 } else {
-                    tasks[a[1]] = a[2]
+                    tasks[id][a[1]] = a[2]
                     message.channel.send('Task Added!')
                 }
             }
         }
-        else if (message.content.startsWith('!d')) {
+        else if (message.content.startsWith('!d ')) {
 
             let a = message.content.split(' ');
 
@@ -42,7 +44,7 @@ client.on('messageCreate', (message) => {
 
             } else {
 
-                if (tasks[a[1]]){
+                if (tasks[id][a[1]]){
                     delete tasks[a[1]]
                     message.channel.send('Task Removed!')
                 } else {
@@ -53,18 +55,17 @@ client.on('messageCreate', (message) => {
         
         else if (message.content.startsWith('!l')) {
 
-            if (Object.keys(tasks).length === 0){
+            if (Object.keys(tasks[id]).length === 0){
                 message.channel.send('You have no tasks right now.')
 
             } else {
                 message.channel.send('Tasks:')
 
-                for (var task in tasks){
-                    message.channel.send(`${task} @ ${tasks[task]}`)
+                for (var task in tasks[id]){
+                    message.channel.send(`${task} @ ${tasks[id][task]}`)
                 } 
             }
             
-        
         } else if (message.content.startsWith('!h')) {
             message.channel.send('Commands:\n!a <task> <time> | Add a new task add a certain time\n!d <task> | Delete a task\n!l | List all current tasks\n!h | View command list')
 
