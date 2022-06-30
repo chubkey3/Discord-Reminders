@@ -1,6 +1,6 @@
 const {Client} = require('discord.js');
 const schedule = require('node-schedule');
-
+const mongoose = require('mongoose');
 
 const jobs = []
 
@@ -153,4 +153,3 @@ client.on('messageCreate', (message) => {
 
 
 client.login(process.env.TOKEN)
-
