@@ -2,6 +2,24 @@ const {Client} = require('discord.js');
 const schedule = require('node-schedule');
 const mongoose = require('mongoose');
 
+function parseTime(t){
+    if (t.endsWith('am')){
+        return t.slice(0, -2)
+    } else if (t.endsWith('pm')){
+        let k = t.split(':')
+        
+        k[0] = String(Number(t[0])+12)
+        
+        
+        k.join(':')
+        
+        return k.join(':').slice(0, -2);
+
+    } else {
+        return t
+    }
+}
+
 const jobs = []
 
 require('dotenv').config()
@@ -39,6 +57,8 @@ client.on('messageCreate', (message) => {
                     let date;
                     if (a.length === 3){
                         let today = new Date()
+                        a[2] = parseTime(a[2])
+                        console.log(a[2])
                         date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), a[2].split(':')[0], a[2].split(':')[1].replace('0', ''))
                         
 
@@ -116,7 +136,7 @@ client.on('messageCreate', (message) => {
             } else {
 
                 if (tasks[id][a[1]]){
-                    delete tasks[a[1]]
+                    delete tasks[id][a[1]]
                     message.channel.send('Task Removed!')
                 } else {
                     message.channel.send('Task Does Not Exist!')
