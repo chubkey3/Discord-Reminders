@@ -4,6 +4,7 @@ const am = require('./commands/am')
 const d = require('./commands/d')
 const l = require('./commands/l')
 const h = require('./commands/h')
+const tz = require('./commands/tz')
 
 module.exports = {
     a,
@@ -11,5 +12,6 @@ module.exports = {
     am,
     d,
     l,
-    h
+    h,
+    tz
 }

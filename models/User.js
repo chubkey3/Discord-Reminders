@@ -6,7 +6,11 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    tasks: [TaskSchema]
+    tasks: [TaskSchema],
+    timezone: {
+        type: String,
+        default: 'America/Vancouver'
+    }
      
 
 })

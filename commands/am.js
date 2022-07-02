@@ -1,5 +1,6 @@
 const schedule = require('node-schedule');
 const User = require('../models/User.js');
+const { getTimeZone } = require('../util.js');
 
 async function am(message, jobs, task_names){  
     let a = message.content.split(' ');
@@ -13,9 +14,16 @@ async function am(message, jobs, task_names){
             message.channel.send('Task Already Exists!')
 
         } else if(Number(a[2]) > 0) {   
-            let today = new Date()
-            let date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes()+Number(a[2]))
 
+            let timezone = await getTimeZone(message.author.id)
+            
+            let date = new Date( new Date().toLocaleString([], {timeZone: timezone}) )
+            
+            //initialized as Athens but set as Vancouver???
+            date.setSeconds(date.getSeconds() + 60*Number(a[2]))
+            console.log(date.toTimeString())
+            //let date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours(), today.getMinutes()+Number(a[2]))
+            
             jobs.push(schedule.scheduleJob(date, function(){
                 message.channel.send(`<@${message.author.id}>`)
                 message.channel.send(`Task: **${a[1]}**`)

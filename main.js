@@ -1,7 +1,7 @@
 const {Client} = require('discord.js');
 const mongoose = require('mongoose');
 const User = require('./models/User.js')
-const {a, am, as, d, h, l} = require('./commands')
+const {a, am, as, d, h, l, tz} = require('./commands');
 
 require('dotenv').config()
 
@@ -61,6 +61,9 @@ client.on('messageCreate', async (message) => {
             else if (message.content.startsWith('!l')) {
                 l(message, tasks)
                 
+            } else if (message.content.startsWith('!tz ')){
+                tz(message)
+
             } else if (message.content.startsWith('!h')) {
                 h(message)
 
