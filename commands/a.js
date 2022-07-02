@@ -20,16 +20,16 @@ async function a(message, jobs, task_names){
             let timezone = await getTimeZone(message.author.id)
             
             if (a.length === 3){
-                let today = new Date( new Date().toLocaleString([], {timeZone: timezone}) )
-                a[2] = parseTime(a[2])
-                date = new Date ( new Date(today.getFullYear(), today.getMonth(), today.getDate(), a[2].split(':')[0], a[2].split(':')[1].replace('0', '')).toLocaleString([], {timeZone: timezone}) )
+                let today = new Date()
                 
-
+                a[2] = parseTime(a[2])
+                date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), a[2].split(':')[0], a[2].split(':')[1].replace('0', ''))
+                
             } else {
-                date = new Date ( new Date(a[3].split('/')[2], a[3].split('/')[0]-1, a[3].split('/')[1], a[2].split(':')[0], a[2].split(':')[1].replace('0', '')).toLocaleString([], {timeZone: timezone}) )
+                date = new Date(a[3].split('/')[2], a[3].split('/')[0]-1, a[3].split('/')[1], a[2].split(':')[0], a[2].split(':')[1].replace('0', ''))
 
             }
-            console.log(date)
+            
             jobs.push(schedule.scheduleJob(date, function(){
                 message.channel.send(`<@${message.author.id}>`)
                 message.channel.send(`Task: **${a[1]}**`)

@@ -13,10 +13,14 @@ async function tz(message){
         .setURL(link)        
 
     if (a.length === 2){
-        if (a[1] === 'GET'){
+        if (a[1] === 'get'){
             let timezone = await User.findOne({id: message.author.id})
 
             message.channel.send(timezone['timezone'])
+        } else if (a[1] == '1'){
+            await User.updateOne({id: message.author.id}, {timezone: 'America/Vancouver'})
+        } else if (a[1] == '2'){
+            await User.updateOne({id: message.author.id}, {timezone: 'Europe/Athens'})
         }
         else if (!(a[1] in timezones)){
             message.channel.send('Please provide an official time zone.')
