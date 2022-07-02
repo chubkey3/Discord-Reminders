@@ -5,7 +5,7 @@ function parseTime(t){
         return t.slice(0, -2)
     } else if (t.endsWith('pm')){
         let k = t.split(':')
-        
+        console.log(k)
         k[0] = String(Number(t[0])+12)
         
         
